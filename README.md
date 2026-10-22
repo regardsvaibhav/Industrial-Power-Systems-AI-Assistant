@@ -125,7 +125,7 @@ uv run python eval/run_eval.py --mode llm --llm-judge # needs LLM_API_KEY
 
 Each run rebuilds the index in a temp directory and writes `reports/eval_<mode>_<tag>_<time>.{json,md}`.
 
-**Measured results, extractive mode** ([full report](reports/EVAL_REPORT_extractive.md)):
+**Measured results, extractive mode** ([final report](reports/EVAL_REPORT_extractive.md), [baseline report](reports/eval_extractive_baseline_20261022T182029Z.md)):
 
 | Metric | Baseline run | After fixes |
 |---|---|---|
@@ -136,7 +136,7 @@ Each run rebuilds the index in a temp directory and writes `reports/eval_<mode>_
 | False abstention rate | 6.7% | 0% |
 | Calculation accuracy (12 items) | 91.7% | 100% |
 | Ambiguous → clarification / insufficient → abstain / injection → reject | 100% / 100% / 100% | 100% / 100% / 100% |
-| Latency p50 / p95 (in-process) | 323 / 508 ms | 331 / 522 ms |
+| Latency p50 / p95 (in-process) | 323 / 508 ms | 310 / 488 ms |
 
 The baseline run found real bugs: sentences split across PDF pages, a load-shedding detector
 that fired on conceptual questions, and generator phrasing the parser missed. Fixes were made

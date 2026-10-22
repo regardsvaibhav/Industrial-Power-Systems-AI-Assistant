@@ -1,7 +1,7 @@
 {
   "run": {
-    "timestamp_utc": "2026-10-22T18:26:18+00:00",
-    "git_commit": "46f0569",
+    "timestamp_utc": "2026-10-22T18:32:21+00:00",
+    "git_commit": "b091540",
     "app_version": "0.1.0",
     "mode": "extractive",
     "llm_model": null,
@@ -17,7 +17,7 @@
       "retrieval": 22,
       "security": 3
     },
-    "index_build_s": 1.39,
+    "index_build_s": 1.83,
     "settings": {
       "top_k": 5,
       "min_relevance": 0.35,
@@ -46,9 +46,9 @@
     "ambiguous_accuracy": 1.0,
     "insufficient_accuracy": 1.0,
     "security_accuracy": 1.0,
-    "latency_p50_ms": 331.1,
-    "latency_p95_ms": 522.2,
-    "latency_p50_ms_answered_rag": 428.15,
+    "latency_p50_ms": 309.9,
+    "latency_p95_ms": 487.9,
+    "latency_p50_ms_answered_rag": 399.1,
     "total_cost_usd": 0.0,
     "total_tokens": 0
   },
@@ -64,7 +64,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "A three-phase system has three voltages of equal magnitude displaced by 120 electrical degrees. [S1] For example, a 400 V line-to-line system has a line-to-neutral voltage of about 231 V, and a 480 V system has a line-to-neutral voltage of about 277 V. [S1] When line-to-neutral voltage is used instead, three- phase power is P = 3 x V_LN x I_L x cos(phi), which gives the same result. [S2]",
-      "latency_ms": 702.0,
+      "latency_ms": 702.3,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -95,7 +95,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "In a delta connection the line voltage equals the phase voltage, while the line current is sqrt(3) times the phase current. 3. [S1]",
-      "latency_ms": 404.7,
+      "latency_ms": 433.7,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -122,7 +122,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Base impedance in ohms is Z_base = V_base squared / S_base. [S1] To convert an impedance from an old base to a new base: Z_new = Z_old x (S_new / S_old) x (V_old / V_new) squared. [S1]",
-      "latency_ms": 370.2,
+      "latency_ms": 377.7,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -149,7 +149,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Even small voltage unbalance causes much larger current unbalance in induction motors, which increases heating; motor manufacturers commonly recommend derating motors when voltage unbalance exceeds about 1 percent. [S1]",
-      "latency_ms": 343.6,
+      "latency_ms": 456.6,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -176,7 +176,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Many utilities therefore apply a penalty or a kVA-based demand charge when the customer's average power factor falls below a threshold, often in the range 0.90 to 0.95. [S1]",
-      "latency_ms": 433.9,
+      "latency_ms": 487.9,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -203,7 +203,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Individual correction gives the largest loss reduction in the plant wiring but costs more and must be coordinated with motor protection; the capacitor rating at a motor should not exceed the motor's no-load magnetising reactive power, otherwise self-excitation can produce dangerous overvoltage when the motor is disconnected while still spinning. [S1] An induction motor needs magnetising current regardless of load, so a motor running at 25 percent of rated load may have a power factor of 0.5 or less, while the same motor at full load may reach 0.85 to 0.9. [S4]",
-      "latency_ms": 420.3,
+      "latency_ms": 444.1,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -234,7 +234,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "The harmonic order of parallel resonance between a capacitor bank and the supply can be estimated as h = sqrt(S_sc / Q_c), where S_sc is the short-circuit power at the capacitor bus in MVA and Q_c is the capacitor rating in Mvar. [S1]",
-      "latency_ms": 305.6,
+      "latency_ms": 299.9,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -261,7 +261,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "True power factor includes the effect of harmonic currents, while displacement power factor considers only the phase angle between fundamental-frequency voltage and current. [S1] With non-linear loads such as variable frequency drives and rectifiers, true power factor can be noticeably lower than displacement power factor. 2. [S2]",
-      "latency_ms": 422.7,
+      "latency_ms": 417.4,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -292,7 +292,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Oil-immersed transformers are identified by a four-letter cooling code. [S1]",
-      "latency_ms": 454.0,
+      "latency_ms": 439.1,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -319,7 +319,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "For a transformer with 1.5 kW no-load loss and 10.5 kW full-load load loss, maximum efficiency occurs near 38 percent load. [S1]",
-      "latency_ms": 359.4,
+      "latency_ms": 329.2,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -346,7 +346,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "The life of a transformer is determined mainly by the ageing of its cellulose (paper) insulation, which depends on the winding hot-spot temperature, moisture and oxygen. [S1] The ageing rate roughly doubles for every 6 to 7 degrees C of hot-spot temperature above that reference and halves for every similar decrease below it. [S1]",
-      "latency_ms": 389.7,
+      "latency_ms": 370.3,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -373,7 +373,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Typical values are 4 to 6 percent for distribution transformers of 500 to 2500 kVA and 8 to 12 percent or more for large power transformers. [S1]",
-      "latency_ms": 440.8,
+      "latency_ms": 392.7,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -400,7 +400,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "The inertia constant H, in seconds, is the stored kinetic energy at rated speed divided by the machine MVA rating; typical values are 2 to 9 seconds for synchronous generators. [S1]",
-      "latency_ms": 444.0,
+      "latency_ms": 402.3,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -427,7 +427,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Droop is the percentage change in frequency that causes the governor to move the unit from zero to full output. [S1] A typical droop setting is 4 to 5 percent. [S1]",
-      "latency_ms": 470.7,
+      "latency_ms": 408.1,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -454,7 +454,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "A common planning rule is that spinning reserve should be at least equal to the output of the largest single generating unit online, so that its loss can be covered. [S1]",
-      "latency_ms": 440.4,
+      "latency_ms": 400.2,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -481,7 +481,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "These are never shed. \u2022 Priority 2, essential: loads whose loss causes significant production loss or equipment damage, for example continuous process drives and cooling for critical equipment. [S1] Shedding proceeds from the lowest priority (highest tier number) upward until the deficit is covered, and within a tier larger loads are often shed first to minimise the number of switching operations. [S2] Shedding first the Priority 4 loads (0.6 MW) and then the Priority 3 loads (1.4 MW) gives 2.0 MW shed, which covers the requirement while protecting Priority 1 and Priority 2 loads. [S3]",
-      "latency_ms": 430.5,
+      "latency_ms": 362.1,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -516,7 +516,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Shed loads should be restored gradually, in reverse priority order, only after frequency has recovered and sufficient reserve is available. [S1]",
-      "latency_ms": 425.8,
+      "latency_ms": 371.5,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -543,7 +543,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Many wiring codes and design guides recommend that voltage drop be limited to about 3 percent on a feeder or branch circuit and about 5 percent in total from the service point to the furthest load. [S1]",
-      "latency_ms": 522.2,
+      "latency_ms": 374.5,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -570,7 +570,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Motor contribution, typically estimated as about 4 to 6 times the full-load current of running motors for the first few cycles, should be added when large motor loads are present. [S1]",
-      "latency_ms": 457.8,
+      "latency_ms": 419.2,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -597,7 +597,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "The arc flash boundary is the distance at which incident energy falls to 1.2 cal/cm2, the level associated with the onset of a second-degree burn on bare skin. [S1]",
-      "latency_ms": 304.7,
+      "latency_ms": 309.9,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -624,7 +624,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Insulation resistance testing applies a DC test voltage, commonly 500 V or 1000 V for low-voltage equipment, and measures leakage resistance; trending results over time is more informative than any single value. [S1]",
-      "latency_ms": 387.9,
+      "latency_ms": 366.9,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -651,7 +651,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "The polarization index is the ratio of the 10-minute to the 1-minute insulation resistance reading; a low value can indicate moisture or contamination. [S1]",
-      "latency_ms": 474.4,
+      "latency_ms": 398.0,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -679,7 +679,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "This is why improving power factor can release transformer capacity. [S1]",
-      "latency_ms": 567.0,
+      "latency_ms": 557.8,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -706,7 +706,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "The most common cause of low power factor in industrial plants is lightly loaded induction motors. [S1] An induction motor needs magnetising current regardless of load, so a motor running at 25 percent of rated load may have a power factor of 0.5 or less, while the same motor at full load may reach 0.85 to 0.9. [S1]",
-      "latency_ms": 487.2,
+      "latency_ms": 420.5,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -733,7 +733,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "In installations with significant non-linear load, detuned capacitor banks with series reactors (for example 7 percent reactors, which tune the bank to about 3.8 times the fundamental frequency: about 189 Hz on a 50 Hz system or 227 Hz on a 60 Hz system, safely below the 5th harmonic) or active harmonic filters should be considered. [S2]",
-      "latency_ms": 331.1,
+      "latency_ms": 380.1,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -760,7 +760,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "When generation exceeds demand, the surplus energy accelerates the rotating machines and the frequency rises. [S1] When demand exceeds generation, energy is drawn from the rotating masses, the machines slow down and the frequency falls. [S1] System frequency is therefore a continuous indicator of the balance between generation and demand, including losses. [S1]",
-      "latency_ms": 439.4,
+      "latency_ms": 410.1,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -787,7 +787,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Systems with a high share of inverter-based generation such as solar and wind have lower synchronous inertia and therefore experience faster frequency changes unless synthetic inertia or fast frequency response is provided. [S1]",
-      "latency_ms": 431.4,
+      "latency_ms": 412.5,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -814,7 +814,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Because the infinite-source assumption ignores utility and cable impedance, it overestimates the fault current and is conservative for checking equipment interrupting ratings. [S1] It is not conservative for checking that protective devices will trip quickly enough on minimum faults, or for arc flash studies, where lower fault currents can produce longer clearing times and higher incident energy. [S1]",
-      "latency_ms": 356.1,
+      "latency_ms": 304.5,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -841,7 +841,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Transformers operated in parallel should have the same voltage ratio, the same vector group (phase displacement), the same polarity and phase sequence, and similar percent impedance (commonly within about 10 percent of each other). [S1]",
-      "latency_ms": 417.8,
+      "latency_ms": 371.1,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -868,7 +868,7 @@
       "semantic_first_gold_rank": 1,
       "status": "answered",
       "answer": "Shed loads should be restored gradually, in reverse priority order, only after frequency has recovered and sufficient reserve is available. [S1] Shedding proceeds from the lowest priority (highest tier number) upward until the deficit is covered, and within a tier larger loads are often shed first to minimise the number of switching operations. [S3]",
-      "latency_ms": 413.8,
+      "latency_ms": 368.9,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -894,7 +894,7 @@
       "question": "Find the kW, kVA and kvar for a 415 V three-phase load drawing 250 A at a power factor of 0.82.",
       "status": "calculation",
       "answer": "Result of the `three_phase_power` tool: apparent power: 179.7 kVA; real power: 147.354 kW; reactive power: 102.854 kvar; phase angle: 34.92 deg.",
-      "latency_ms": 25.2,
+      "latency_ms": 23.1,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -919,7 +919,7 @@
       "question": "An 11 kV three-phase feeder carries 85 A at 0.93 pf. What is the real power?",
       "status": "calculation",
       "answer": "Result of the `three_phase_power` tool: apparent power: 1619.47 kVA; real power: 1506.11 kW; reactive power: 595.251 kvar; phase angle: 21.57 deg.",
-      "latency_ms": 23.0,
+      "latency_ms": 21.6,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -944,7 +944,7 @@
       "question": "A compressor house draws 340 kW and 425 kVA. Calculate the power factor.",
       "status": "calculation",
       "answer": "Result of the `power_factor` tool: power factor: 0.8; apparent power: 425 kVA; reactive power: 255 kvar; phase angle: 36.87 deg.",
-      "latency_ms": 22.7,
+      "latency_ms": 21.4,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -969,7 +969,7 @@
       "question": "What capacitor kvar is required to raise a 750 kW load from 0.72 to 0.96 power factor?",
       "status": "calculation",
       "answer": "Result of the `power_factor` tool: power factor: 0.72; apparent power: 1041.67 kVA; reactive power: 722.89 kvar; phase angle: 43.95 deg; capacitor kvar required: 504.14 kvar; apparent power after: 781.25 kVA; apparent power released: 260.417 kVA.",
-      "latency_ms": 25.3,
+      "latency_ms": 21.7,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -994,7 +994,7 @@
       "question": "Determine the loading of a 1600 kVA transformer serving 1150 kW at 0.88 power factor.",
       "status": "calculation",
       "answer": "Result of the `transformer_loading` tool: load apparent power: 1306.82 kVA; loading: 81.68 %; status: high; headroom: 293.182 kVA.",
-      "latency_ms": 23.3,
+      "latency_ms": 32.4,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -1019,7 +1019,7 @@
       "question": "A 630 kVA transformer supplies 700 kVA. Calculate its loading and say whether it is overloaded.",
       "status": "calculation",
       "answer": "Result of the `transformer_loading` tool: load apparent power: 700 kVA; loading: 111.11 %; status: overloaded; headroom: -70 kVA.",
-      "latency_ms": 22.3,
+      "latency_ms": 21.2,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -1044,7 +1044,7 @@
       "question": "Compute the voltage drop on a 400 V three-phase cable 200 m long carrying 80 A at 0.9 pf, with R = 0.268 ohm/km and X = 0.075 ohm/km.",
       "status": "calculation",
       "answer": "Result of the `voltage_drop` tool: voltage drop: 7.59 V; voltage drop percent: 1.9 %; receiving end voltage: 392.4 V.",
-      "latency_ms": 22.6,
+      "latency_ms": 20.5,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -1069,7 +1069,7 @@
       "question": "Estimate the prospective fault current at the LV terminals of a 2000 kVA, 415 V transformer with 6.5% impedance.",
       "status": "calculation",
       "answer": "Result of the `short_circuit_transformer` tool: full load current: 2782.4 A; source impedance pu: 0.0; total impedance pu: 0.065; fault current: 42.81 kA; fault mva: 30.77 MVA.",
-      "latency_ms": 22.5,
+      "latency_ms": 20.7,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -1094,7 +1094,7 @@
       "question": "Calculate the fault current for a 1000 kVA 400 V transformer with 5% impedance fed from a 150 MVA utility source.",
       "status": "calculation",
       "answer": "Result of the `short_circuit_transformer` tool: full load current: 1443.4 A; source impedance pu: 0.00667; total impedance pu: 0.05667; fault current: 25.47 kA; fault mva: 17.65 MVA.",
-      "latency_ms": 23.1,
+      "latency_ms": 20.9,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -1119,7 +1119,7 @@
       "question": "Four 25 MW gas turbines serve a demand of 82 MW with a reserve requirement of 15 MW. Is there enough generation and is it N-1 secure?",
       "status": "calculation",
       "answer": "Result of the `generation_demand_balance` tool: total available generation: 100 MW; balance: 18 MW; reserve margin: 21.95 %; status: adequate; largest unit: 25 MW; n minus 1 secure: False; capacity after largest unit loss: 75 MW.",
-      "latency_ms": 23.9,
+      "latency_ms": 21.6,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -1144,7 +1144,7 @@
       "question": "Generators rated 60, 45 and 30 MW supply a load of 120 MW. What is the reserve margin?",
       "status": "calculation",
       "answer": "Result of the `generation_demand_balance` tool: total available generation: 135 MW; balance: 15 MW; reserve margin: 12.5 %; status: adequate; largest unit: 60 MW; n minus 1 secure: False; capacity after largest unit loss: 75 MW.",
-      "latency_ms": 23.3,
+      "latency_ms": 21.6,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -1169,7 +1169,7 @@
       "question": "Available generation is 5.0 MW and a reserve of 0.5 MW is required. Loads: Hospital wing (1.2 MW, priority 1), Rolling mill (2.5 MW, priority 2), Chillers (1.0 MW, priority 3), Warehouse lighting (0.6 MW, priority 4), Car park chargers (0.9 MW, priority 4). Which loads should be shed in this hypothetical scenario?",
       "status": "calculation",
       "answer": "Result of the `load_shedding_scenario` tool: total demand: 6.2 MW; shed required: 1.7 MW; shed total: 2.5 MW; remaining demand: 3.7 MW; resulting reserve: 1.3 MW; requirement met: True. Loads to shed (in order): Car park chargers (0.9 MW, P4), Warehouse lighting (0.6 MW, P4), Chillers (1 MW, P3).",
-      "latency_ms": 22.3,
+      "latency_ms": 20.6,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [
@@ -1250,7 +1250,7 @@
       "question": "How much power does a 690 V motor drawing 45 A use?",
       "status": "needs_clarification",
       "answer": "To run the three phase power calculation I need: power_factor. Please provide these values with units, or use the calculator panel.",
-      "latency_ms": 0.0,
+      "latency_ms": 0.1,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [],
@@ -1264,7 +1264,7 @@
       "question": "What does IEC 60076-7 say about the thermal model of a transformer?",
       "status": "abstained",
       "answer": "The question uses terms that do not appear in the indexed documents, so I cannot answer it from the available evidence.",
-      "latency_ms": 22.8,
+      "latency_ms": 20.4,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [],
@@ -1278,7 +1278,7 @@
       "question": "How much does a 2 MVA dry-type transformer cost in Germany?",
       "status": "abstained",
       "answer": "The question uses terms that do not appear in the indexed documents, so I cannot answer it from the available evidence.",
-      "latency_ms": 22.6,
+      "latency_ms": 20.7,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [],
@@ -1292,7 +1292,7 @@
       "question": "What PPE category is required for 8 cal/cm2 under NFPA 70E tables?",
       "status": "abstained",
       "answer": "I could not find sufficiently relevant evidence in the indexed documents to answer this. Try rephrasing, selecting other documents, or uploading a document that covers the topic.",
-      "latency_ms": 22.3,
+      "latency_ms": 20.8,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [],
@@ -1306,7 +1306,7 @@
       "question": "What is the recommended torque for M12 busbar bolts?",
       "status": "abstained",
       "answer": "I could not find sufficiently relevant evidence in the indexed documents to answer this. Try rephrasing, selecting other documents, or uploading a document that covers the topic.",
-      "latency_ms": 23.2,
+      "latency_ms": 21.1,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [],
@@ -1320,7 +1320,7 @@
       "question": "Which UFLS frequency thresholds does ERCOT use?",
       "status": "abstained",
       "answer": "The question uses terms that do not appear in the indexed documents, so I cannot answer it from the available evidence.",
-      "latency_ms": 22.2,
+      "latency_ms": 20.6,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [],
@@ -1334,7 +1334,7 @@
       "question": "How do I configure a SEL-751 relay for directional overcurrent protection?",
       "status": "abstained",
       "answer": "The question uses terms that do not appear in the indexed documents, so I cannot answer it from the available evidence.",
-      "latency_ms": 22.5,
+      "latency_ms": 20.5,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [],
@@ -1348,7 +1348,7 @@
       "question": "What is the efficiency of a typical grid-tied solar inverter?",
       "status": "abstained",
       "answer": "The retrieved documents do not contain enough information to answer this question reliably.",
-      "latency_ms": 397.2,
+      "latency_ms": 365.4,
       "cost_usd": 0.0,
       "tokens": 0,
       "citations": [],
