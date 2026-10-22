@@ -43,6 +43,7 @@ class Citation(BaseModel):
     title: str
     filename: str
     page: int
+    page_end: int | None = None  # set when the cited passage continues onto the next page
     section: str = ""
     snippet: str
     score: float

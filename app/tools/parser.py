@@ -263,7 +263,7 @@ def _generators(t: str) -> list[float]:
         + "|".join(_WORDNUM)
         + r")\s*(?:x|×|\*)?\s*(?:units?\s+of\s+|generators?\s+of\s+|gas\s+engines?\s+of\s+)?"
         + NUM
-        + r"\s*mw\s*(?:generators?|units?|gensets?|engines?|gas\s+engines?|turbines?)?",
+        + r"\s*mw\s*(?:(?:gas|steam|diesel|hydro|wind)\s+)?(?:generators?|units?|gensets?|engines?|turbines?)?",
         t,
         re.I,
     ):
@@ -328,8 +328,8 @@ _LOAD_ITEM = re.compile(
 def _load_shedding(t: str) -> CalcIntent | None:
     if not re.search(r"\bshed|load[\s-]?shedding", t, re.I):
         return None
-    if not re.search(r"\d", t):
-        return None  # conceptual question, not a calculation
+    if not re.search(NUM + r"\s*mw", t, re.I):
+        return None  # no power quantities: a conceptual question, not a calculation
     args: dict = {}
     m = re.search(
         r"(?:available\s+generation|generation\s+available|generation|available\s+capacity|supply)\s*(?:of|is|=|:|drops\s+to|falls\s+to)?\s*"

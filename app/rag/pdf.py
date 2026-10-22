@@ -28,6 +28,7 @@ class PDFError(ValueError):
 class Page:
     number: int  # 1-based
     text: str
+    continues: bool = False  # last sentence finishes on the next page
 
 
 @dataclass
@@ -104,6 +105,28 @@ def _paragraphs(page_text: str) -> list[str]:
     return paras
 
 
+TERMINAL_RE = re.compile(r"[.!?:]\s*$")
+FIRST_SENTENCE_RE = re.compile(r"^(.{1,400}?[.!?])(?=\s|$)", re.DOTALL)
+
+
+def _join_split_sentences(pages: list[Page]) -> list[Page]:
+    """Move a sentence fragment that starts a page back onto the previous page.
+
+    Without this, a sentence broken across a page boundary yields two half-sentences
+    that are hard to retrieve and quote. The sentence is cited with the page it starts on.
+    """
+    texts = [p.text for p in pages]
+    moved = [False] * len(pages)
+    for i in range(len(texts) - 1):
+        if texts[i] and not TERMINAL_RE.search(texts[i]) and texts[i + 1]:
+            m = FIRST_SENTENCE_RE.match(texts[i + 1])
+            if m and not HEADING_RE.match(texts[i + 1].splitlines()[0]):
+                texts[i] = texts[i] + " " + m.group(1).replace("\n", " ")
+                texts[i + 1] = texts[i + 1][m.end() :].lstrip()
+                moved[i] = True
+    return [Page(p.number, t, mv) for p, t, mv in zip(pages, texts, moved, strict=True)]
+
+
 def _make_chunk(parsed: ParsedPDF, filename: str, page_no: int, idx: int, units: list[tuple[str, str]]) -> Chunk | None:
     # Headings end with a newline so they never fuse with the first sentence.
     text = " ".join(t + "\n" if HEADING_RE.match(t) else t for t, _ in units).replace("\n ", "\n").strip()
@@ -138,7 +161,7 @@ def chunk_pdf(parsed: ParsedPDF, filename: str, size: int = 900, overlap: int = 
     """
     chunks: list[Chunk] = []
     section = ""
-    for page in parsed.pages:
+    for page in _join_split_sentences(parsed.pages):
         units: list[tuple[str, str]] = []  # (text, section in effect at that text)
         for para in _paragraphs(page.text):
             if HEADING_RE.match(para):
@@ -173,4 +196,9 @@ def chunk_pdf(parsed: ParsedPDF, filename: str, size: int = 900, overlap: int = 
             current.append((text, sec))
         if current:
             flush(current, page.number)
+        if page.continues and chunks and chunks[-1].page == page.number:
+            chunks[-1].metadata["page_end"] = page.number + 1
+    for c in chunks:
+        c.metadata.setdefault("page_end", c.page)
+        c.metadata["page_count"] = parsed.page_count
     return chunks

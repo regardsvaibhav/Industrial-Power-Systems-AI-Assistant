@@ -177,6 +177,7 @@ class Assistant:
                     title=m["title"],
                     filename=m["filename"],
                     page=int(m["page"]),
+                    page_end=int(m.get("page_end", m["page"])),
                     section=m.get("section", ""),
                     snippet=h.text[:500],
                     score=round(h.semantic, 4),

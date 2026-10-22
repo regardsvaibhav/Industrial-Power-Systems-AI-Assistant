@@ -57,19 +57,23 @@ def locate_evidence(corpus: Path) -> dict[str, dict[int, str]]:
     return out
 
 
-def gold_pages(item: dict, pages: dict[str, dict[int, str]]) -> set[int]:
-    doc_pages = pages[item["doc"]]
-    gold = set()
-    for phrase in [item["evidence"], *item.get("alt_evidence", [])]:
-        found = {p for p, t in doc_pages.items() if squash(phrase) in t}
+def gold_pages(item: dict, pages: dict[str, dict[int, str]]) -> set[tuple[str, int]]:
+    """Gold (doc, page) pairs: where the evidence phrase (and any `alt` evidence) appears."""
+    gold: set[tuple[str, int]] = set()
+    for doc, phrase in [(item["doc"], item["evidence"])] + [(a["doc"], a["evidence"]) for a in item.get("alt", [])]:
+        found = {(doc, p) for p, t in pages[doc].items() if squash(phrase) in t}
         if not found:
-            raise SystemExit(f"{item['id']}: evidence phrase not found in {item['doc']}: {phrase!r}")
+            raise SystemExit(f"{item['id']}: evidence phrase not found in {doc}: {phrase!r}")
         gold |= found
     return gold
 
 
-def is_gold(meta: dict, item: dict, gold: set[int]) -> bool:
-    return meta["title"].startswith(item["doc"]) and int(meta["page"]) in gold
+def is_gold(meta: dict, gold: set[tuple[str, int]]) -> bool:
+    """A cited passage is correct if any page it spans is a gold page."""
+    doc = meta["title"].split()[0]
+    first = int(meta["page"])
+    last = int(meta.get("page_end") or first)
+    return any((doc, p) in gold for p in range(first, last + 1))
 
 
 def close(actual, expected) -> bool:
@@ -110,7 +114,11 @@ def llm_judge(llm: LLMClient, answer: str, sources: list[str]) -> tuple[bool | N
 def git_commit() -> str:
     try:
         return subprocess.run(  # noqa: S603
-            ["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True  # noqa: S607
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,  # noqa: S607
         ).stdout.strip()
     except Exception:
         return "unknown"
@@ -126,7 +134,9 @@ def main() -> int:
     items = [json.loads(line) for line in BENCH.read_text().splitlines() if line.strip()]
     tmp = Path(tempfile.mkdtemp(prefix="ipa-eval-"))
     base = Settings()
-    settings = base.model_copy(update={"chroma_dir": tmp / "chroma", "upload_dir": tmp / "uploads", "rate_limit_per_minute": 10**6})
+    settings = base.model_copy(
+        update={"chroma_dir": tmp / "chroma", "upload_dir": tmp / "uploads", "rate_limit_per_minute": 10**6}
+    )
     if args.mode == "extractive":
         settings = settings.model_copy(update={"llm_api_key": type(base.llm_api_key)("")})
     if args.mode == "llm" and not settings.llm_enabled:
@@ -146,10 +156,10 @@ def main() -> int:
         row: dict = {"id": item["id"], "category": item["category"], "question": item["question"]}
         if item["category"] in RAG_CATS:
             gold = gold_pages(item, pages)
-            row["gold"] = {"doc": item["doc"], "pages": sorted(gold)}
+            row["gold"] = sorted(f"{d} p{p}" for d, p in gold)
             for hybrid in (True, False):
                 hits = store.search(item["question"], k=max(KS), hybrid=hybrid)
-                ranks = [i for i, h in enumerate(hits, 1) if is_gold(h.metadata, item, gold)]
+                ranks = [i for i, h in enumerate(hits, 1) if is_gold(h.metadata, gold)]
                 key = "hybrid" if hybrid else "semantic"
                 row[f"{key}_first_gold_rank"] = ranks[0] if ranks else None
 
@@ -169,7 +179,9 @@ def main() -> int:
             answered = resp.status == "answered"
             row["answered"] = answered
             if answered:
-                flags = [is_gold({"title": c.title, "page": c.page}, item, gold) for c in resp.citations]
+                flags = [
+                    is_gold({"title": c.title, "page": c.page, "page_end": c.page_end}, gold) for c in resp.citations
+                ]
                 row["citation_precision"] = sum(flags) / len(flags) if flags else 0.0
                 row["citation_hit"] = any(flags)
                 low = resp.answer.lower()
@@ -239,9 +251,12 @@ def main() -> int:
         "n_items": len(rows),
         "n_by_category": {c: sum(r["category"] == c for r in rows) for c in sorted({r["category"] for r in rows})},
         "index_build_s": round(index_s, 2),
-        "settings": {"top_k": settings.top_k, "min_relevance": settings.min_relevance,
-                     "unknown_term_abstain_ratio": settings.unknown_term_abstain_ratio,
-                     "chunk_size_chars": settings.chunk_size_chars},
+        "settings": {
+            "top_k": settings.top_k,
+            "min_relevance": settings.min_relevance,
+            "unknown_term_abstain_ratio": settings.unknown_term_abstain_ratio,
+            "chunk_size_chars": settings.chunk_size_chars,
+        },
     }
     REPORTS.mkdir(exist_ok=True)
     stamp = dt.datetime.now(dt.UTC).strftime("%Y%m%dT%H%M%SZ")
@@ -263,7 +278,8 @@ def render_markdown(run: dict, m: dict, rows: list[dict]) -> str:
         "All numbers below come from this executed run; nothing is estimated or hand-entered.",
         "",
         f"- Items: {run['n_items']} ({', '.join(f'{k}: {v}' for k, v in run['n_by_category'].items())})",
-        f"- Answer mode: **{run['mode']}**" + (f" with `{run['llm_model']}`" if run["llm_model"] else " (no LLM; answers are verbatim source sentences)"),
+        f"- Answer mode: **{run['mode']}**"
+        + (f" with `{run['llm_model']}`" if run["llm_model"] else " (no LLM; answers are verbatim source sentences)"),
         f"- Embeddings: {run['embedding_model']}; index build {run['index_build_s']} s",
         f"- Settings: {run['settings']}",
         f"- Environment: Python {run['python']}, {run['platform']}",

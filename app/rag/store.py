@@ -169,7 +169,7 @@ class VectorStore:
                 },
             )
             d["chunks"] += 1
-            d["pages"] = max(d["pages"], int(meta["page"]))
+            d["pages"] = int(meta.get("page_count") or max(d["pages"], int(meta["page"])))
         return sorted(docs.values(), key=lambda d: d["title"])
 
     def get_chunk(self, chunk_id: str) -> Hit | None:
