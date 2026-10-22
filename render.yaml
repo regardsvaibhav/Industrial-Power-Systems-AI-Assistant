@@ -1,0 +1,18 @@
+# Alternative host: Render (Docker web service). Starter plan or higher is recommended:
+# the embedding model and Chroma need ~1 GB RAM. Uploaded documents are lost on redeploy
+# unless a persistent disk is attached (paid add-on).
+services:
+  - type: web
+    name: industrial-power-ai
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: LLM_BASE_URL
+        value: https://api.openai.com/v1
+      - key: LLM_MODEL
+        value: gpt-4o-mini
+      - key: LLM_API_KEY
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false

@@ -112,14 +112,23 @@ def llm_judge(llm: LLMClient, answer: str, sources: list[str]) -> tuple[bool | N
 
 
 def git_commit() -> str:
+    """Short HEAD hash, suffixed with -dirty if tracked files have uncommitted changes."""
     try:
-        return subprocess.run(  # noqa: S603
-            ["git", "rev-parse", "--short", "HEAD"],
+        head = subprocess.run(  # noqa: S603
+            ["git", "rev-parse", "--short", "HEAD"],  # noqa: S607
             cwd=ROOT,
             capture_output=True,
             text=True,
-            check=True,  # noqa: S607
+            check=True,
         ).stdout.strip()
+        dirty = subprocess.run(  # noqa: S603
+            ["git", "status", "--porcelain", "--untracked-files=no"],  # noqa: S607
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
+        return head + ("-dirty" if dirty else "")
     except Exception:
         return "unknown"
 
