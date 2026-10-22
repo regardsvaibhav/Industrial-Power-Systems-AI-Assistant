@@ -120,9 +120,12 @@ def extractive_answer(
         return Generated("", [], True)
     chosen = []
     seen: set[str] = set()
+    best_doc = sources[scored[0][1]].metadata["doc_id"]
     for sc, sid, s, pos in scored:
         if len(chosen) >= max_sentences or sc < max(min_sentence_score, scored[0][0] - 0.15):
             break
+        if chosen and sources[sid].metadata["doc_id"] != best_doc:
+            continue  # supporting sentences must come from the same document as the best one
         key = s.lower()[:80]
         if key in seen:
             continue

@@ -1,1 +1,75 @@
-<!doctype html><html><body>placeholder</body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power Systems Assistant</title>
+  <meta name="description" content="Document-grounded assistant and deterministic calculators for industrial power systems.">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg>
+      <span>Power Systems Assistant</span>
+    </div>
+    <div class="status" id="status" aria-live="polite">Connecting…</div>
+  </header>
+
+  <main class="layout">
+    <!-- Left: documents and examples -->
+    <aside class="panel side" aria-label="Documents">
+      <section>
+        <h2>Documents</h2>
+        <p class="hint">Tick documents to restrict search. None ticked = search all.</p>
+        <ul id="doc-list" class="doc-list"></ul>
+        <label class="dropzone" id="dropzone">
+          <input type="file" id="file-input" accept="application/pdf,.pdf" hidden>
+          <span><strong>Upload PDF</strong><br><small>Text-based PDF, up to <span id="max-mb">15</span> MB</small></span>
+        </label>
+        <div id="upload-msg" class="msg" role="status"></div>
+      </section>
+      <section>
+        <h2>Examples</h2>
+        <div id="examples" class="examples"></div>
+      </section>
+    </aside>
+
+    <!-- Center: chat -->
+    <section class="panel chat" aria-label="Chat">
+      <div id="messages" class="messages" aria-live="polite">
+        <div class="empty" id="empty">
+          <h1>Ask about power systems</h1>
+          <p>Answers come only from the indexed documents, with page citations. Numerical questions are routed to tested calculators; the language model never does the arithmetic.</p>
+        </div>
+      </div>
+      <form id="ask-form" class="ask">
+        <label for="question" class="sr-only">Question</label>
+        <textarea id="question" rows="2" maxlength="2000" placeholder="e.g. What conditions must be met to run transformers in parallel?" required></textarea>
+        <button type="submit" id="ask-btn">Ask</button>
+      </form>
+    </section>
+
+    <!-- Right: sources and calculators -->
+    <aside class="panel side right" aria-label="Sources and calculators">
+      <div class="tabs" role="tablist">
+        <button role="tab" class="tab active" data-tab="source" aria-selected="true">Source preview</button>
+        <button role="tab" class="tab" data-tab="calc" aria-selected="false">Calculators</button>
+      </div>
+      <section id="tab-source" class="tabpanel">
+        <div id="source-preview" class="source-preview"><p class="hint">Select a citation to preview the page.</p></div>
+      </section>
+      <section id="tab-calc" class="tabpanel" hidden>
+        <label for="tool-select">Tool</label>
+        <select id="tool-select"></select>
+        <p id="tool-desc" class="hint"></p>
+        <form id="calc-form" class="calc-form"></form>
+        <div id="calc-result"></div>
+      </section>
+    </aside>
+  </main>
+  <footer class="foot">Educational tool. Verify results against applicable standards and qualified engineering review before acting on them.</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

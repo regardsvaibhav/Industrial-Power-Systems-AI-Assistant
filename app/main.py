@@ -159,6 +159,7 @@ def create_app(settings: Settings | None = None, assistant: Assistant | None = N
             "llm_model": a.llm.model if a.llm else None,
             "chunks_indexed": a.store.count(),
             "uploads_protected": bool(settings.admin_token.get_secret_value()),
+            "max_upload_mb": settings.max_upload_mb,
         }
 
     @app.get("/api/examples")
