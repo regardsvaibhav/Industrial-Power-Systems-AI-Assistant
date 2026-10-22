@@ -17,7 +17,7 @@ import pymupdf
 HEADING_RE = re.compile(r"^\d{1,2}\.\s+[A-Z][^\n]{2,80}$")
 FOOTER_RE = re.compile(r"^.{0,40}\|\s*page \d+ of \d+$", re.IGNORECASE)
 CONTROL_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f​-‏‪-‮⁦-⁩]")
-SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z(])")
+SENTENCE_RE = re.compile(r"(?<=[a-zA-Z)%][.!?])\s+(?=[A-Z(])")
 
 
 class PDFError(ValueError):
@@ -51,8 +51,8 @@ class Chunk:
 def normalise_text(text: str) -> str:
     text = unicodedata.normalize("NFKC", text)  # fixes ligatures such as "ﬃ"
     text = CONTROL_RE.sub("", text)
-    text = re.sub(r"(\w)-\n(\w)", r"\1\2", text)  # de-hyphenate line breaks
-    lines = [ln.strip() for ln in text.splitlines()]
+    text = re.sub(r"(\w)-\n(\w)", r"\1-\2", text)  # re-join words split at a hyphen
+    lines = [re.sub(r"[ \t]+", " ", ln).strip() for ln in text.splitlines()]
     lines = [ln for ln in lines if ln and not FOOTER_RE.match(ln)]
     return "\n".join(lines)
 
@@ -104,6 +104,31 @@ def _paragraphs(page_text: str) -> list[str]:
     return paras
 
 
+def _make_chunk(parsed: ParsedPDF, filename: str, page_no: int, idx: int, units: list[tuple[str, str]]) -> Chunk | None:
+    # Headings end with a newline so they never fuse with the first sentence.
+    text = " ".join(t + "\n" if HEADING_RE.match(t) else t for t, _ in units).replace("\n ", "\n").strip()
+    if len(text) < 40:
+        return None
+    # A chunk is labelled by the first heading it contains, else the inherited section.
+    headings = [t for t, _ in units if HEADING_RE.match(t)]
+    sec = headings[0] if headings else units[0][1]
+    return Chunk(
+        chunk_id=f"{parsed.doc_id}:p{page_no}:c{idx}",
+        doc_id=parsed.doc_id,
+        text=text,
+        page=page_no,
+        section=sec,
+        metadata={
+            "doc_id": parsed.doc_id,
+            "filename": filename,
+            "title": parsed.title,
+            "page": page_no,
+            "section": sec,
+            "chunk_index": idx,
+        },
+    )
+
+
 def chunk_pdf(parsed: ParsedPDF, filename: str, size: int = 900, overlap: int = 150) -> list[Chunk]:
     """Chunk page by page so every chunk maps to exactly one page (precise citations).
 
@@ -114,58 +139,38 @@ def chunk_pdf(parsed: ParsedPDF, filename: str, size: int = 900, overlap: int = 
     chunks: list[Chunk] = []
     section = ""
     for page in parsed.pages:
-        units: list[tuple[str, str]] = []  # (text, section at that point)
+        units: list[tuple[str, str]] = []  # (text, section in effect at that text)
         for para in _paragraphs(page.text):
             if HEADING_RE.match(para):
                 section = para
                 units.append((para, section))
-                continue
-            if len(para) <= size:
+            elif len(para) <= size:
                 units.append((para, section))
             else:
-                for sent in SENTENCE_RE.split(para):
-                    units.append((sent, section))
+                units.extend((sent, section) for sent in SENTENCE_RE.split(para))
 
-        current: list[str] = []
-        cur_section = section
-        idx_on_page = 0
+        current: list[tuple[str, str]] = []
 
-        def flush() -> None:
-            nonlocal current, idx_on_page
-            text = " ".join(current).strip()
-            if len(text) >= 40:
-                cid = f"{parsed.doc_id}:p{page.number}:c{idx_on_page}"
-                chunks.append(
-                    Chunk(
-                        chunk_id=cid,
-                        doc_id=parsed.doc_id,
-                        text=text,
-                        page=page.number,
-                        section=cur_section,
-                        metadata={
-                            "doc_id": parsed.doc_id,
-                            "filename": filename,
-                            "title": parsed.title,
-                            "page": page.number,
-                            "section": cur_section,
-                            "chunk_index": idx_on_page,
-                        },
-                    )
-                )
-                idx_on_page += 1
+        def flush(units_: list[tuple[str, str]], page_no: int) -> None:
+            chunk = _make_chunk(parsed, filename, page_no, sum(c.page == page_no for c in chunks), units_)
+            if chunk:
+                chunks.append(chunk)
 
         for text, sec in units:
-            if current and sum(len(c) + 1 for c in current) + len(text) > size:
-                flush()
-                tail: list[str] = []
-                for sent in reversed(SENTENCE_RE.split(" ".join(current))):
-                    if sum(len(t) for t in tail) + len(sent) > overlap:
-                        break
-                    tail.insert(0, sent)
-                current = tail
-            if not current:
-                cur_section = sec
-            current.append(text)
+            if current and sum(len(t) + 1 for t, _ in current) + len(text) > size:
+                carried = []
+                while current and HEADING_RE.match(current[-1][0]):  # don't end a chunk on a heading
+                    carried.insert(0, current.pop())
+                flush(current, page.number)
+                tail: list[tuple[str, str]] = []
+                if current and not carried:
+                    last_text, last_sec = current[-1]
+                    for sent in reversed(SENTENCE_RE.split(last_text)):
+                        if sum(len(t) for t, _ in tail) + len(sent) > overlap:
+                            break
+                        tail.insert(0, (sent, last_sec))
+                current = tail + carried
+            current.append((text, sec))
         if current:
-            flush()
+            flush(current, page.number)
     return chunks

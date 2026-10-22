@@ -109,7 +109,9 @@ def test_transformer_currents_and_efficiency():
     assert out(r, "max_efficiency_at_loading") == pytest.approx(37.8, abs=0.1)
 
 
-@pytest.mark.parametrize("pct,band", [(50, "normal"), (80, "normal"), (80.01, "high"), (100, "high"), (100.5, "overloaded")])
+@pytest.mark.parametrize(
+    "pct,band", [(50, "normal"), (80, "normal"), (80.01, "high"), (100, "high"), (100.5, "overloaded")]
+)
 def test_loading_bands(pct, band):
     assert p.loading_band(pct) == band
 
@@ -173,9 +175,7 @@ LOADS = [
 
 def test_load_shedding_ips05_example():
     # Demand 3.6 MW, 2.0 MW available, 0.2 MW reserve -> shed 1.8 MW
-    r = p.load_shedding_scenario(
-        p.LoadSheddingInput(available_generation_mw=2.0, loads=LOADS, required_reserve_mw=0.2)
-    )
+    r = p.load_shedding_scenario(p.LoadSheddingInput(available_generation_mw=2.0, loads=LOADS, required_reserve_mw=0.2))
     assert out(r, "total_demand") == pytest.approx(3.6)
     assert out(r, "shed_required") == pytest.approx(1.8)
     names = [x["name"] for x in out(r, "loads_shed")]
@@ -213,7 +213,12 @@ def test_load_shedding_rejects_bad_priority():
 def test_voltage_drop_worked_example():
     r = p.voltage_drop(
         p.VoltageDropInput(
-            voltage_ll_v=400, current_a=150, length_m=120, resistance_ohm_per_km=0.153, reactance_ohm_per_km=0.08, power_factor=0.85
+            voltage_ll_v=400,
+            current_a=150,
+            length_m=120,
+            resistance_ohm_per_km=0.153,
+            reactance_ohm_per_km=0.08,
+            power_factor=0.85,
         )
     )
     assert out(r, "voltage_drop") == pytest.approx(5.37, abs=0.01)
@@ -223,7 +228,15 @@ def test_voltage_drop_worked_example():
 
 def test_voltage_drop_single_phase_and_warning():
     r = p.voltage_drop(
-        p.VoltageDropInput(voltage_ll_v=230, current_a=32, length_m=60, resistance_ohm_per_km=4.61, reactance_ohm_per_km=0, power_factor=1, phases=1)
+        p.VoltageDropInput(
+            voltage_ll_v=230,
+            current_a=32,
+            length_m=60,
+            resistance_ohm_per_km=4.61,
+            reactance_ohm_per_km=0,
+            power_factor=1,
+            phases=1,
+        )
     )
     # 2 * 32 * 0.06 * 4.61 = 17.70 V = 7.70 %
     assert out(r, "voltage_drop") == pytest.approx(17.70, abs=0.01)
@@ -237,7 +250,9 @@ def test_voltage_drop_rejects_two_phase():
 
 # ------------------------------------------------------------- short circuit
 def test_short_circuit_infinite_bus():
-    r = p.short_circuit_transformer(p.ShortCircuitInput(transformer_kva=1000, secondary_voltage_ll_v=400, impedance_percent=6))
+    r = p.short_circuit_transformer(
+        p.ShortCircuitInput(transformer_kva=1000, secondary_voltage_ll_v=400, impedance_percent=6)
+    )
     assert out(r, "fault_current") == pytest.approx(24.06, abs=0.01)
     assert out(r, "fault_mva") == pytest.approx(16.67, abs=0.01)
 

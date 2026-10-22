@@ -34,10 +34,20 @@ class Settings(BaseSettings):
     chroma_dir: Path = PROJECT_ROOT / "data" / "chroma"
     upload_dir: Path = PROJECT_ROOT / "data" / "uploads"
     collection_name: str = "power_docs"
+    auto_ingest_corpus: bool = True  # index data/corpus on startup when the store is empty
+
+    # API protection
+    request_timeout_s: float = Field(60.0, gt=0, le=300)
+    rate_limit_per_minute: int = Field(30, ge=1, le=10000)
+    cors_origins: list[str] = Field(default_factory=list)
 
     # Retrieval
     top_k: int = Field(5, ge=1, le=20)
     min_relevance: float = Field(0.35, ge=0.0, le=1.0)
+    # Lower semantic floor accepted when at least half the question's terms match a chunk exactly.
+    min_relevance_lexical_floor: float = Field(0.2, ge=0.0, le=1.0)
+    # Extractive mode only: abstain when this share of question terms never occurs in the corpus.
+    unknown_term_abstain_ratio: float = Field(0.5, ge=0.0, le=1.0)
     chunk_size_chars: int = Field(900, ge=200, le=4000)
     chunk_overlap_chars: int = Field(150, ge=0, le=1000)
 
