@@ -183,3 +183,4 @@ Run GCS volume mount or a Render disk) at `/app/data`.
 - Calculations assume balanced, sinusoidal, steady-state conditions; see each result's
   assumptions. Load-shedding output is a hypothetical planning aid, not an operating instruction.
 - Docker image is about 1.5 GB because of Chroma's dependencies.
+"# Industrial-Power-Systems-AI-Assistant" 
